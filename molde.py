@@ -15,17 +15,28 @@ class AFD:
         print("Transicao de ", estado, " com ", simbolo)
         return self.transicoes.get((estado, simbolo), None)
     
-    def processar_input(self, input_string):
-        print("Processando input: ", input_string)
-        estado = self.estado_inicial
-        for simbolo in input_string:
-            print("Estado atual: ", estado)
-            print("Simbolo atual: ", simbolo)
-            estado = self.transicao(estado, simbolo)
-            if estado is None:
-                return False
-        print("Estado final: ", estado)
-        return estado in self.estados_aceitacao
+    def processar_input(self):
+        estado = self.estado_inicial # Estado atual, começa como o inicial
+
+        resposta = 's' # Variavel para a resposta de inserir mais um ingrediente ou nao
+        while True:
+            if resposta == 's':
+                simbolo = input("\nQual ingrediente será inserido:\n")
+                
+                print("\nEstado atual: ", estado)
+                print("Simbolo atual: ", simbolo)
+                estado = self.transicao(estado, simbolo) # Realiza a transicao dos estados
+                if estado is None: # Caso nao exista a transicao, retorna falso
+                    return False
+            elif resposta == 'n':
+                break
+            else:
+                print("Resposta inválida!")
+            resposta = input("\nDeseja inserir mais um ingrediente(s/n)?\n")
+            resposta = resposta.strip()
+       
+        print("\nEstado final: ", estado)
+        return estado in self.estados_aceitacao # Procura se o estado que parou, é um estado final
 
 def ler_arquivo(caminho_do_arquivo):
     with open(caminho_do_arquivo, 'r') as arq:
@@ -35,7 +46,7 @@ def ler_arquivo(caminho_do_arquivo):
     alfabeto = set()    #cria um conjunto vazio
     transicoes = {}    
     estado_inicial = None 
-    estados_aceitacao = None
+    estados_aceitacao = set()
 
     for linha in linhas:
         linha = linha.strip()
@@ -45,7 +56,8 @@ def ler_arquivo(caminho_do_arquivo):
         elif linha.startswith('I:'):
             estado_inicial = linha.split()[1] #pega o segundo elemento da linha
         elif linha.startswith('F:'):
-            estados_aceitacao = linha.split()[1] #pega o segundo elemento da linha
+            finais = linha.split()[1:] #pega o segundo elemento da linha
+            estados_aceitacao = set(finais)
         elif '->' in linha:
             src, rest = linha.split('->') #divide a linha em duas partes a partir de '->' e coloca a primeira parte em src e a segunda em rest 
             src = src.strip()
@@ -58,16 +70,19 @@ def ler_arquivo(caminho_do_arquivo):
         elif linha == '---':
             break
 
-    return AFD(estados, alfabeto, transicoes, estado_inicial, {estados_aceitacao})
+    return AFD(estados, alfabeto, transicoes, estado_inicial, estados_aceitacao)
 
-# Testar a máquina com a entrada "a p p"
-afd = ler_arquivo("afd.txt")
 
-# Defina a entrada para teste
-entrada = ["a", "p", "p"]
+def main():
+    #Testar a máquina com a entrada "a p p"
+    afd = ler_arquivo("afd.txt")
 
-# Processar a entrada
-if afd.processar_input(entrada):
-    print("String aceita.")
-else:
-    print("String rejeitada.")
+    # Processar a entrada
+    if afd.processar_input():
+        print("String aceita.")
+    else:
+        print("String rejeitada.")
+
+
+if __name__ == '__main__':
+    main()
