@@ -39,6 +39,7 @@ class AFD:
         return estado in self.estados_aceitacao # Procura se o estado que parou, é um estado final
 
 def ler_arquivo(caminho_do_arquivo):
+    print("Lendo arquivo ", caminho_do_arquivo)
     with open(caminho_do_arquivo, 'r') as arq:
         linhas = arq.readlines()
     
@@ -73,16 +74,4 @@ def ler_arquivo(caminho_do_arquivo):
     return AFD(estados, alfabeto, transicoes, estado_inicial, estados_aceitacao)
 
 
-def main():
-    #Testar a máquina com a entrada "a p p"
-    afd = ler_arquivo("afd.txt")
 
-    # Processar a entrada
-    if afd.processar_input():
-        print("String aceita.")
-    else:
-        print("String rejeitada.")
-
-
-if __name__ == '__main__':
-    main()
