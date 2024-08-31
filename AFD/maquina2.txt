@@ -1,0 +1,17 @@
+Q: I ing1 d1 d2 erro F
+I: I
+F: F
+I -> ing1 		| e
+I -> erro 		| m d
+ing1 -> d1 	    | d
+ing1 -> erro 	| e m
+d1 -> d2	    | d
+d1 -> F	        | m
+d1 -> erro	    | e
+d2 -> F 	    | m
+d2 -> erro 	    | d e
+F -> d1         | d
+F -> F          | m
+F -> erro       | e
+erro -> erro    | e d m
+---

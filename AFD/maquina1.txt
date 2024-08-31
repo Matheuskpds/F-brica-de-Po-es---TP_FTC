@@ -1,0 +1,13 @@
+Q: I ing1 ing2 erro F
+I: I
+F: F
+I -> ing1 		| a
+I -> erro 		| d l f
+ing1 -> ing1 	| a
+ing1 -> ing2 	| l
+ing1 -> erro 	| d f
+ing2 -> F 	    | f
+ing2 -> erro 	| a l d
+F -> erro       | a l f d
+erro -> erro    | a l f d
+---

@@ -7,7 +7,7 @@ def menu():
     maquina = int(input())
     
     if(maquina == 1):
-        caminho = "AFD/afd.txt"
+        caminho = "AFD/maquina3.txt"
         print(caminho)
         afd = ler_arquivo(caminho)
         if afd.processar_input():
