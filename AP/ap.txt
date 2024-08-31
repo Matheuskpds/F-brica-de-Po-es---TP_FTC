@@ -1,0 +1,9 @@
+Q: I E1 E2 E3 E4 F
+I: I
+F: F
+I -> E1  | a |  | C
+E1 -> E2 | p | C | 
+E2 -> E3 | l |  | T
+E3 -> E4 | f | T | 
+E4 -> F  | g |  | 
+---
