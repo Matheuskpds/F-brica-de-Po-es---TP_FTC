@@ -1,11 +1,11 @@
 from AFD.afd import ler_arquivo
-from AP.ap import ler_arquivo_apd
+from APD.apd import ler_arquivo_apd
 
 def menu():
     print("Selecione uma máquina de estados:")
-    print("1 - AFD\n2 - APD")
+    print("1 - AFD\n2 - APD\n3 - APN")
     maquina = int(input())
-    
+
     if(maquina == 1):
         caminho = "AFD/maquina3.txt"
         print(caminho)
@@ -15,7 +15,7 @@ def menu():
         else:
             print("Erro na poção!")
     elif(maquina == 2):
-        caminho = "AP/ap.txt"
+        caminho = "APD/maquina_APD2.txt"
         print(caminho)
         apd = ler_arquivo_apd(caminho)
 

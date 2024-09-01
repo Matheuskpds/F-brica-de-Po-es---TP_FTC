@@ -12,13 +12,8 @@ class APD:
         print("Estado inicial: ", self.estado_inicial)
         print("Estados de aceitacao: ", self.estados_aceitacao)
 
-    def transicao_apd(self, estado, simbolo):
-        print("Transicao de ", estado, " com ", simbolo)
-        return self.transicoes.get((estado, simbolo), None)
-
-
     def processar_input_apd(self):
-        estado = self.estado_inicial # Estado atual, começa como o inicial
+        estado = self.estado_inicial  # Estado atual, começa como o inicial
         
         resposta = 's'
         while True:
@@ -27,23 +22,26 @@ class APD:
                 
                 print("\nEstado atual: ", estado)
                 print("Simbolo atual: ", simbolo)
-                novo_estado = self.transicao_apd(estado, simbolo) # Realiza a transicao dos estados
-                if estado[0] is None: # Caso nao exista a transicao, retorna falso
+                prox_estado, desempilha, empilha = self.transicoes.get((estado, simbolo), (None, None, None))
+                if prox_estado is None:  # Caso não exista a transição, retorna falso
                     return False
                 else:
-                    prox_estado, desempilha, empilha = self.transicoes[(estado, simbolo)]
-
                     # Verifica se o desempilha corresponde ao topo da pilha
-                    if desempilha == "" or (len(self.pilha) > 0 and self.pilha[-1] == desempilha):
+                    if desempilha == "" or (len(self.pilha) >= len(desempilha) and self.pilha[-len(desempilha):] == list(desempilha)):
                         if desempilha != "":
-                            self.pilha.pop()  # Desempilha o topo
+                            # Desempilha cada caractere de desempilha
+                            for _ in range(len(desempilha)):
+                                self.pilha.pop()
+
                         if empilha != "":
-                            self.pilha.append(empilha)  # Empilha o novo símbolo
+                            # Empilha cada caractere de empilha
+                            for char in empilha:
+                                self.pilha.append(char)
                     
                         # Muda para o próximo estado
                         estado = prox_estado
                     else:
-                        estado = None
+                        return False
             elif resposta == 'n':
                 break
             else:
@@ -51,16 +49,18 @@ class APD:
             resposta = input("\nDeseja inserir mais um ingrediente(s/n)?\n")
             resposta = resposta.strip()
         print("\nEstado final: ", estado)
-        return estado in self.estados_aceitacao # Procura se o estado que parou, é um estado final
-        
+        if estado in self.estados_aceitacao and len(self.pilha) == 0: # Procura se o estado em que parou é um estado final
+                return True
+        else:
+            return False
         
         
 def ler_arquivo_apd(arquivo):
     with open(arquivo, 'r') as f:
         linhas = f.read().strip().splitlines()
 
-    estados = set() #cria um conjunto vazio
-    alfabeto = set()    #cria um conjunto vazio
+    estados = set()  # Cria um conjunto vazio
+    alfabeto = set()  # Cria um conjunto vazio
     transicoes = {}    
     estado_inicial = None 
     estados_aceitacao = set()
@@ -68,12 +68,12 @@ def ler_arquivo_apd(arquivo):
     for linha in linhas:
         linha = linha.strip()
         if linha.startswith('Q:'):
-            partes = linha.split()[1:] #separa a linha em partes e ignora o primeiro elemento (Q:)
-            estados = set(partes) #cria um conjunto com os elementos de partes
+            partes = linha.split()[1:]  # Separa a linha em partes e ignora o primeiro elemento (Q:)
+            estados = set(partes)  # Cria um conjunto com os elementos de partes
         elif linha.startswith('I:'):
-            estado_inicial = linha.split()[1] #pega o segundo elemento da linha
+            estado_inicial = linha.split()[1]  # Pega o segundo elemento da linha
         elif linha.startswith('F:'):
-            finais = linha.split()[1:] #pega o segundo elemento da linha
+            finais = linha.split()[1:]  # Pega o segundo elemento da linha
             estados_aceitacao = set(finais)
         elif "->" in linha:
             partes = linha.split("|")
@@ -87,5 +87,5 @@ def ler_arquivo_apd(arquivo):
             
             # Adiciona a transição ao dicionário
             transicoes[(estado_atual, simbolo_entrada)] = (proximo_estado, desempilha, empilha)
-    print("Estados1: ", estados)
+    
     return APD(estados, alfabeto, transicoes, estado_inicial, estados_aceitacao)
