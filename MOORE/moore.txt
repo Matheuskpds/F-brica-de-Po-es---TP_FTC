@@ -1,0 +1,20 @@
+Q: S0 S1 S2 S3
+Σ: X Y Z
+Λ: Fumaça Cor Textura Nada
+S0: Nada
+S1: Fumaça
+S2: Cor
+S3: Textura
+S0 -> S1 | X
+S0 -> S2 | Y
+S0 -> S3 | Z
+S1 -> S1 | X
+S1 -> S2 | Y
+S1 -> S3 | Z
+S2 -> S1 | X
+S2 -> S2 | Y
+S2 -> S3 | Z
+S3 -> S1 | X
+S3 -> S2 | Y
+S3 -> S3 | Z
+---
