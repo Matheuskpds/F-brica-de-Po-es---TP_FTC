@@ -1,3 +1,21 @@
+import os
+
+tabela = """
+╔═══════════════════════╦═════════╦═══════════════════════════════════════════════════════╗
+║      Ingrediente      ║ Símbolo ║                     Propriedades                      ║
+╠═══════════════════════╬═════════╬═══════════════════════════════════════════════════════╣
+║ lagrimas de unicornio ║ l       ║ torna a mistura azul                                  ║
+║ cinza de gnomos       ║ c       ║ cria uma fumaca vinda da mistura                      ║
+║ escamas de dragao     ║ d       ║ aumenta a temperatura da mistura, fazendo-a borbulhar ║
+║ urina de gigante      ║ u       ║ causa acidez à mistura                                ║
+╚═══════════════════════╩═════════╩═══════════════════════════════════════════════════════╝
+"""
+pocao = {
+    "Pocao": "Mistura de elementos misticos",
+    "Ingredientes": "l c d u",
+    "descricao": " Teste de reações de acordo com o último ingrediente inserido."
+}
+
 class Moore:
     def __init__(self, estados, estado_inicial, alfabeto, alfabeto_saida, transicoes, reacoes):
         self.estados = estados
@@ -6,12 +24,12 @@ class Moore:
         self.transicoes = transicoes
         self.alfabeto_saida = alfabeto_saida
         self.reacoes = reacoes
-        print("Estados: ", self.estados)
-        print("Estado inicial: ", self.estado_inicial)
-        print("Alfabeto: ", self.alfabeto)
-        print("Alfabeto saida: ", self.alfabeto_saida)
-        print("Transicoes: ", self.transicoes)
-        print("Reacoes: ", self.reacoes)
+        #print("Estados: ", self.estados)
+        #print("Estado inicial: ", self.estado_inicial)
+        #print("Alfabeto: ", self.alfabeto)
+        #print("Alfabeto saida: ", self.alfabeto_saida)
+        #print("Transicoes: ", self.transicoes)
+        #print("Reacoes: ", self.reacoes)
   
     
     def transicao(self, estado, simbolo):
@@ -24,6 +42,11 @@ class Moore:
         resposta = 's' # Variavel para a resposta de inserir mais um ingrediente ou nao
         while True:
             if resposta == 's':
+                os.system('cls')
+                print(tabela)
+                print("Pocao: ", pocao["Pocao"])
+                print("Ingredientes(simbolos): ", pocao["Ingredientes"])
+                print("Descricao da pocaoo: ", pocao["descricao"])
                 simbolo = input("\nQual ingrediente será inserido:\n")
                 
                 print("\nEstado atual: ", estado)

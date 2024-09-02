@@ -1,3 +1,46 @@
+import os
+
+tabela_maquina1 = """
+╔══════════════════════════╦═════════╦══════════════════════════════════════╗
+║       Ingrediente        ║ Símbolo ║             Propriedades             ║
+╠══════════════════════════╬═════════╬══════════════════════════════════════╣
+║ água                     ║ a       ║ Solvente universal                   ║
+║ folhas da arvore da vida ║ f       ║ Causam um brilho na mistura          ║
+║ cinza de gnomos          ║ c       ║ Neutraliza a pocao e ofusca o brilho ║
+╚══════════════════════════╩═════════╩══════════════════════════════════════╝
+"""
+pocao_maquina1 = {
+    "Pocao": "Pocao do Encolhimento",
+    "Ingredientes": "a f c",
+    "descricao": "Pocao que faz com que o bebedor encolha por algumas horas.",
+    "modo_preparo": [
+        "Comece adicionando a quantidade de água que desejar e em sequência adicione n vezes folhas de árvore da vida",
+        "Para finalizar devem ser adicionadas também n vezes cinzas de gnomos. Potência da poção é definida pela quantidade de cinzas de gnomos."
+    ]
+}
+
+tabela_maquina2 = """
+╔═══════════════════════╦═════════╦══════════════════════════════════╗
+║      Ingrediente      ║ Símbolo ║           Propriedades           ║
+╠═══════════════════════╬═════════╬══════════════════════════════════╣
+║ elixir                ║ e       ║                                  ║
+║ lagrimas de unicornio ║ l       ║ diminui a temperatura da mistura ║
+║ escamas de dragao     ║ d       ║ aumenta a temperatura da mistura ║
+╚═══════════════════════╩═════════╩══════════════════════════════════╝
+"""
+pocao_maquina2 = {
+    "Pocao": "Pocao do Voo",
+    "Ingredientes": "e l d",
+    "descricao": "Pocao que faz com que o bebedor consiga voar por algumas horas.",
+    "modo_preparo": [
+        "Comece adicionando uma porção de elixir.",
+        "Em sequência adicione escamas de dragão.",
+        "Siga adicionando o dobro de lágrimas de unicórnios em relação às escamas de dragão.",
+        "E finalize adicionando uma porção de elixir."
+    ]
+}
+
+
 class APD:
     def __init__(self, estados, alfabeto, transicoes, estado_inicial, estados_aceitacao):
         self.estados = estados
@@ -6,18 +49,35 @@ class APD:
         self.estado_inicial = estado_inicial
         self.estados_aceitacao = estados_aceitacao
         self.pilha = []
-        print("Estados: ", self.estados)
-        print("Alfabeto: ", self.alfabeto)
-        print("Transicoes: ", self.transicoes)
-        print("Estado inicial: ", self.estado_inicial)
-        print("Estados de aceitacao: ", self.estados_aceitacao)
+        #print("Estados: ", self.estados)
+        #print("Alfabeto: ", self.alfabeto)
+        #print("Transicoes: ", self.transicoes)
+        #print("Estado inicial: ", self.estado_inicial)
+        #print("Estados de aceitacao: ", self.estados_aceitacao)
 
-    def processar_input_apd(self):
+    def processar_input_apd(self, caminho_do_arquivo):
         estado = self.estado_inicial  # Estado atual, começa como o inicial
         
         resposta = 's'
         while True:
             if resposta == 's':
+                os.system('cls')
+                if(caminho_do_arquivo == "APD/maquina_APD1.txt"):
+                    print(tabela_maquina1)
+                    print("Pocao: ", pocao_maquina1["Pocao"])
+                    print("Ingredientes(simbolos): ", pocao_maquina1["Ingredientes"])
+                    print("Descrição da poção: ", pocao_maquina1["descricao"])
+                    print("\nModo de preparo:")
+                    for i in range(len(pocao_maquina1["modo_preparo"])):
+                        print(i+1, "- ", pocao_maquina1["modo_preparo"][i])
+                elif(caminho_do_arquivo == "APD/maquina_APD2.txt"):
+                    print(tabela_maquina2)
+                    print("Pocao: ", pocao_maquina2["Pocao"])
+                    print("Ingredientes(simbolos): ", pocao_maquina2["Ingredientes"])
+                    print("Descrição da poção: ", pocao_maquina2["descricao"])
+                    print("\nModo de preparo:")
+                    for i in range(len(pocao_maquina2["modo_preparo"])):
+                        print(i+1, "- ", pocao_maquina2["modo_preparo"][i])
                 simbolo = input("\nQual ingrediente será inserido:\n")
                 
                 print("\nEstado atual: ", estado)
