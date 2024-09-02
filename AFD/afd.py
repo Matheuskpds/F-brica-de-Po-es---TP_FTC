@@ -69,14 +69,10 @@ class AFD:
         self.transicoes = transicoes
         self.estado_inicial = estado_inicial
         self.estados_aceitacao = estados_aceitacao
-        #print("Estados: ", self.estados)
-        #print("Alfabeto: ", self.alfabeto)
-        #print("Transicoes: ", self.transicoes)
-        #print("Estado inicial: ", self.estado_inicial)
-        #print("Estados de aceitacao: ", self.estados_aceitacao)
+
     
     def transicao(self, estado, simbolo):
-        #print("Transicao de ", estado, " com ", simbolo)
+        print("Transicao de ", estado, " com ", simbolo)
         return self.transicoes.get((estado, simbolo), None)
     
     def processar_input(self, caminho_do_arquivo):
@@ -130,27 +126,27 @@ class AFD:
         return estado in self.estados_aceitacao # Procura se o estado que parou, é um estado final
 
 def ler_arquivo(caminho_do_arquivo):
-    print("Lendo arquivo ", caminho_do_arquivo)
+    print("Lendo arquivo ", caminho_do_arquivo) #Le o arquivo txt da maquina
     with open(caminho_do_arquivo, 'r') as arq:
         linhas = arq.readlines()
     
-    estados = set() #cria um conjunto vazio
-    alfabeto = set()    #cria um conjunto vazio
+    estados = set()
+    alfabeto = set() 
     transicoes = {}    
     estado_inicial = None 
     estados_aceitacao = set()
 
-    for linha in linhas:
+    for linha in linhas: #Le linha por linha
         linha = linha.strip()
-        if linha.startswith('Q:'):
-            partes = linha.split()[1:] #separa a linha em partes e ignora o primeiro elemento (Q:)
-            estados = set(partes) #cria um conjunto com os elementos de partes
-        elif linha.startswith('I:'):
-            estado_inicial = linha.split()[1] #pega o segundo elemento da linha
-        elif linha.startswith('F:'):
-            finais = linha.split()[1:] #pega o segundo elemento da linha
+        if linha.startswith('Q:'): #Primeira linha para os estados
+            partes = linha.split()[1:] 
+            estados = set(partes) #Cria um conjunto para os estados
+        elif linha.startswith('I:'): #Segunda linha para estado inicial
+            estado_inicial = linha.split()[1] 
+        elif linha.startswith('F:'): #Terceira linha para estado final
+            finais = linha.split()[1:] 
             estados_aceitacao = set(finais)
-        elif '->' in linha:
+        elif '->' in linha: #Le as transicoes
             src, rest = linha.split('->') #divide a linha em duas partes a partir de '->' e coloca a primeira parte em src e a segunda em rest 
             src = src.strip()
             dst, simbolos = rest.split('|')

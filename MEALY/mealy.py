@@ -24,13 +24,7 @@ class Mealy:
         self.transicoes = transicoes
         self.alfabeto_saida = alfabeto_saida
         self.reacoes = reacoes
-        #print("Estados: ", self.estados)
-        #print("Estado inicial: ", self.estado_inicial)
-        #print("Alfabeto: ", self.alfabeto)
-        #print("Alfabeto de saída: ", self.alfabeto_saida)
-        #print("Transições: ", self.transicoes)
-        #print("Reacoes: ", self.reacoes)
-  
+        
     def transicao(self, estado, simbolo):
         print("Transição de ", estado, " com ", simbolo)
         return self.transicoes.get((estado, simbolo), (None, None))
@@ -56,9 +50,8 @@ class Mealy:
                     print("Transição inválida!")
                     break
 
-                reac = self.reacoes[saida]
+                reac = self.reacoes[saida] #Encontra a reacao para a saida
                 print(reac)
-                #print("Saída: ", saida)
             elif resposta == 'n':
                 break
             else:
@@ -82,17 +75,17 @@ def ler_arquivo_mealy(caminho_do_arquivo):
 
     for linha in linhas:
         linha = linha.strip()
-        if linha.startswith('Q:'):
+        if linha.startswith('Q:'): #Leitura dos estados
             est = linha.split()[1:]  # Pega os estados
             estados.update(est)
-        elif linha.startswith('I:'):
+        elif linha.startswith('I:'): #Leitura do estado inicial
             estado_inicial = linha.split()[1]  # Pega o segundo elemento da linha
-        elif '=' in linha:
+        elif '=' in linha: #Leitura das reacoes
             simbolo, reacao = linha.split('=')
             simbolo = simbolo.strip()
             reacao = reacao.strip()
             reacoes[simbolo] = reacao
-        elif '->' in linha:
+        elif '->' in linha: #Leitura das transicoes
             src, rest = linha.split('->')  # Divide a linha em duas partes a partir de '->'
             src = src.strip()
             dst, simbolos = rest.split('|')

@@ -54,7 +54,7 @@ class Moore:
                 estado = self.transicao(estado, simbolo) # Realiza a transicao dos estados
 
                 saida = self.estados[estado]
-                reac = self.reacoes[saida]
+                reac = self.reacoes[saida] #Encontra a reacao para a saida
                 print(reac)
             elif resposta == 'n':
                 break
@@ -78,20 +78,20 @@ def ler_arquivo_moore(caminho_do_arquivo):
 
     for linha in linhas:
         linha = linha.strip()
-        if linha.startswith('Q:'):
+        if linha.startswith('Q:'): #Leitura dos estados
             est , saidas = linha.split('|') #separa a linha em partes e ignora o primeiro elemento (Q:)
             est = est.split()[1:]
             saidas = saidas.split()
             for i in range(0,len(est)):
                 estados[est[i]] = saidas[i]
-        elif linha.startswith('I:'):
+        elif linha.startswith('I:'): #Leitura dos estados iniciais
             estado_inicial = linha.split()[1] #pega o segundo elemento da linha
-        elif '=' in linha:
+        elif '=' in linha: #Leitura das reacoes
             simbolo, reacao = linha.split('=')
             simbolo = simbolo.strip()
             reacao = reacao.strip()
             reacoes[simbolo] = reacao
-        elif '->' in linha:
+        elif '->' in linha: #Leitura das transicoes
             src, rest = linha.split('->') #divide a linha em duas partes a partir de '->' e coloca a primeira parte em src e a segunda em rest 
             src = src.strip()
             dst, simbolos = rest.split('|')
