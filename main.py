@@ -298,7 +298,6 @@ ________________________________________________________________________________
 
 def menu():
     loop_menu = 1
-    loop_af = 1
     while loop_menu == 1:
         os.system('cls')
         print(titulo)
@@ -317,14 +316,11 @@ def menu():
                 print(erro)
             
             afd = ler_arquivo(caminho)
-            while loop_af == 1:
-                if afd.processar_input(caminho):
-                    print(pocao_concluida)
-                else:
-                    print(pocao_errada)
-                print("Deseja continuar a criar a pocao? 1 - Sim | 0 - Não")
-                loop_af = int(input())
-                os.system('cls')
+            if afd.processar_input(caminho):
+                print(pocao_concluida)
+            else:
+                print(pocao_errada)
+
         elif(maquina == 2):
             print(pocoes_apd)
             pocao = int(input())
@@ -336,14 +332,10 @@ def menu():
                 print(erro)
             
             apd = ler_arquivo_apd(caminho)
-            while loop_af == 1:
-                if apd.processar_input_apd(caminho):
-                    print(pocao_concluida)
-                else:
-                    print(pocao_errada)
-                print("Deseja continuar a criar a pocao? 1 - Sim | 0 - Não")
-                loop_af = int(input())
-                os.system('cls')
+            if apd.processar_input_apd(caminho):
+                print(pocao_concluida)
+            else:
+                print(pocao_errada)
         elif(maquina == 3):
             print(pocoes_moore)
             pocao = int(input())
@@ -353,11 +345,7 @@ def menu():
                 print(erro)
             moore = ler_arquivo_moore(caminho)
 
-            while loop_af == 1:
-                moore.processar_input_moore()
-                print("Deseja continuar com os testes? 1 - Sim | 0 - Não")
-                loop_af = int(input())
-                os.system('cls')
+            moore.processar_input_moore()
         elif(maquina == 4):
             print(pocoes_mealy)
             pocao = int(input())
@@ -367,12 +355,9 @@ def menu():
                 print(erro)
             mealy = ler_arquivo_mealy(caminho)
 
-            while loop_af == 1:
-                mealy.processar_input_mealy()
-                print("Deseja continuar com os testes? 1 - Sim | 0 - Não")
-                loop_af = int(input())
-                os.system('cls')
-        
+
+            mealy.processar_input_mealy()
+
         print("Deseja continuar? 1 - Sim | 0 - Não")
         loop_menu = int(input())
 menu()
