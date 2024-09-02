@@ -1,4 +1,4 @@
-class Moore:
+class Mealy:
     def __init__(self, estados, estado_inicial, alfabeto, alfabeto_saida, transicoes, reacoes):
         self.estados = estados
         self.estado_inicial = estado_inicial
@@ -9,30 +9,33 @@ class Moore:
         print("Estados: ", self.estados)
         print("Estado inicial: ", self.estado_inicial)
         print("Alfabeto: ", self.alfabeto)
-        print("Alfabeto saida: ", self.alfabeto_saida)
-        print("Transicoes: ", self.transicoes)
+        print("Alfabeto de saída: ", self.alfabeto_saida)
+        print("Transições: ", self.transicoes)
         print("Reacoes: ", self.reacoes)
   
-    
     def transicao(self, estado, simbolo):
-        print("Transicao de ", estado, " com ", simbolo)
-        return self.transicoes.get((estado, simbolo), None)
-    
-    def processar_input_moore(self):
-        estado = self.estado_inicial # Estado atual, começa como o inicial
+        print("Transição de ", estado, " com ", simbolo)
+        return self.transicoes.get((estado, simbolo), (None, None))
 
-        resposta = 's' # Variavel para a resposta de inserir mais um ingrediente ou nao
+    def processar_input_mealy(self):
+        estado = self.estado_inicial  # Estado atual, começa como o inicial
+
+        resposta = 's'  # Variável para a resposta de inserir mais um ingrediente ou não
         while True:
             if resposta == 's':
                 simbolo = input("\nQual ingrediente será inserido:\n")
                 
                 print("\nEstado atual: ", estado)
-                print("Simbolo atual: ", simbolo)
-                estado = self.transicao(estado, simbolo) # Realiza a transicao dos estados
+                print("Símbolo atual: ", simbolo)
+                estado, saida = self.transicao(estado, simbolo)  # Realiza a transição dos estados
 
-                saida = self.estados[estado]
+                if estado is None:
+                    print("Transição inválida!")
+                    break
+
                 reac = self.reacoes[saida]
                 print(reac)
+                #print("Saída: ", saida)
             elif resposta == 'n':
                 break
             else:
@@ -43,41 +46,41 @@ class Moore:
         print("\nEstado final: ", estado)
         return
 
-def ler_arquivo_moore(caminho_do_arquivo):
+def ler_arquivo_mealy(caminho_do_arquivo):
     print("Lendo arquivo ", caminho_do_arquivo)
     with open(caminho_do_arquivo, 'r') as arq:
         linhas = arq.readlines()
     
-    estados = {} #cria um conjunto vazio
-    alfabeto = set()    #cria um conjunto vazio
+    estados = set()  # Conjunto vazio para os estados
+    alfabeto = set()  # Conjunto vazio para o alfabeto
     reacoes = {}
+    alfabeto_saida = set()
     transicoes = {}
 
     for linha in linhas:
         linha = linha.strip()
         if linha.startswith('Q:'):
-            est , saidas = linha.split('|') #separa a linha em partes e ignora o primeiro elemento (Q:)
-            est = est.split()[1:]
-            saidas = saidas.split()
-            for i in range(0,len(est)):
-                estados[est[i]] = saidas[i]
+            est = linha.split()[1:]  # Pega os estados
+            estados.update(est)
         elif linha.startswith('I:'):
-            estado_inicial = linha.split()[1] #pega o segundo elemento da linha
+            estado_inicial = linha.split()[1]  # Pega o segundo elemento da linha
         elif '=' in linha:
             simbolo, reacao = linha.split('=')
             simbolo = simbolo.strip()
             reacao = reacao.strip()
             reacoes[simbolo] = reacao
         elif '->' in linha:
-            src, rest = linha.split('->') #divide a linha em duas partes a partir de '->' e coloca a primeira parte em src e a segunda em rest 
+            src, rest = linha.split('->')  # Divide a linha em duas partes a partir de '->'
             src = src.strip()
             dst, simbolos = rest.split('|')
             dst = dst.strip()
             simbolos = simbolos.strip().split()
             for simbolo in simbolos:
-                transicoes[(src, simbolo)] = dst
-                alfabeto.add(simbolo)
+                simbolo_entrada, saida = simbolo.split('/')
+                transicoes[(src, simbolo_entrada)] = (dst, saida)
+                alfabeto.add(simbolo_entrada)
+                alfabeto_saida.add(saida)
         elif linha == '---':
             break
 
-    return Moore(estados, estado_inicial, alfabeto, saidas, transicoes, reacoes)
+    return Mealy(estados, estado_inicial, alfabeto, alfabeto_saida, transicoes, reacoes)

@@ -1,20 +1,23 @@
-Q: S0 S1 S2 S3
-Σ: X Y Z
-Λ: Fumaça Cor Textura Nada
-S0: Nada
-S1: Fumaça
-S2: Cor
-S3: Textura
-S0 -> S1 | X
-S0 -> S2 | Y
-S0 -> S3 | Z
-S1 -> S1 | X
-S1 -> S2 | Y
-S1 -> S3 | Z
-S2 -> S1 | X
-S2 -> S2 | Y
-S2 -> S3 | Z
-S3 -> S1 | X
-S3 -> S2 | Y
-S3 -> S3 | Z
+Q: Q0 Q1 Q2 Q3 | L C D U
+I: Q0
+L = Mistura ficou azul
+C = Mistura comecou a sair fumaca
+D = Mistura comecou a borbulhar
+U = Mistura ficou acida
+Q0 -> Q0  | l
+Q0 -> Q1  | c
+Q0 -> Q2  | d
+Q0 -> Q3  | u
+Q1 -> Q0  | l
+Q1 -> Q1  | c
+Q1 -> Q2  | d
+Q1 -> Q3  | u
+Q2 -> Q0  | l
+Q2 -> Q1  | c
+Q2 -> Q2  | d
+Q2 -> Q3  | u
+Q3 -> Q0  | l
+Q3 -> Q1  | c
+Q3 -> Q2  | d
+Q3 -> Q3  | u
 ---

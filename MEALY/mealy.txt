@@ -1,0 +1,8 @@
+Q: q0
+I: q0
+L = Mistura ficou azul
+C = Mistura comecou a sair fumaca
+D = Mistura comecou a borbulhar
+U = Mistura ficou acida
+q0 -> q0|l/L c/C d/D u/U
+---
